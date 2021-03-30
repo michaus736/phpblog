@@ -54,7 +54,7 @@
         else{
             $topicount=$filecontent[count($filecontent)-1][3]+1;
         }
-        $file.=nl2br($postTitle.":-:".$postDetail.":-:".$login.":-:".$topicount."-:-:-");
+        $file.=nl2br($postTitle.":-:".$postDetail.":-:".$login.":-:".$topicount.":-:".date("d.m.Y, H:i:s")."-:-:-");
         file_put_contents("./posty.txt",$file);
     }
 

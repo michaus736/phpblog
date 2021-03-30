@@ -112,3 +112,6 @@ nav.logout{
     background: rgb(88, 48, 180);
     margin: 25px 0;
 }
+article.post{
+    margin: 15px 0;
+}

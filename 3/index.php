@@ -29,7 +29,7 @@ if(isset($_POST['LOGIN'])&&isset($_POST['PASSWORD'])){
     }
 }
 //podtrzymanie zmienych w czasie sesji
-if(isset($_SESSION)){
+if(isset($_SESSION['LOGIN'])){
     $currentUser=getUserInfo($_SESSION['LOGIN']);
 }
 
@@ -137,7 +137,7 @@ foreach($tasks as $task){
                 if(isset($userAlreadyExist)){
                     if($userAlreadyExist==true){?>
                         <h4 class="error">
-                            Użytkownik już isnieje
+                            Użytkownik już istnieje
                         </h4>
 
                     <?php }
@@ -166,7 +166,15 @@ foreach($tasks as $task){
                 <?php
                 $posts=readFileDetails("./posty.txt");
                 foreach($posts as $post){?>
-                    <article>
+                    <article class="post">
+                        <div>
+                            <a href="./index.php?topic=<?=$post[3]?>" class="navigation-link">
+                                <?=$post[0]?>
+                            </a>
+                        </div>
+                        <div>
+                            ID: <?=$post[3]?>, Autor: <?=$post[2]?>, Utworzono: <?=$post[4]?>, liczba wpisów: <?=5?>
+                        </div>
                         
                     </article>
                 <?php }
