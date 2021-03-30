@@ -155,23 +155,42 @@ foreach($tasks as $task){
 
     <?php } else {
         if(isset($_GET['topic'])){//wypowiedzi
+            $topic=getTopicOfOpinions($_GET['topic']);
+        ?>
+            <section id="topTopic">
+                <div>
+                    Temat dyskusji: <?=$topic[1]?>
+                </div>
+                <div>
+                    ID: <?=$topic[3]?>, Autor: <?=$topic[2]?>, Data: <?=$topic[4]?>
+                </div>
 
 
+            </section>
 
 
+            <section>
+                
+            </section>
 
+
+            <form action="./index.php?topic=<?=$_GET['topic']?>" method="post">
+                <textarea type="text" placeholder="temat" name="OPINION"></textarea>
+                <input type="submit" value="dodaj">
+            </form>
             
-        }else{//posty?>
+        <?php } else{//posty
+            ?>
             <section>
                 <?php
                 $posts=readFileDetails("./posty.txt");
                 foreach($posts as $post){?>
                     <article class="post">
-                        <div>
-                            <a href="./index.php?topic=<?=$post[3]?>" class="navigation-link">
+                        <a href="./index.php?topic=<?=$post[3]?>" class="navigation-link">
+                            <div class="postTitle">
                                 <?=$post[0]?>
-                            </a>
-                        </div>
+                            </div>
+                        </a>
                         <div>
                             ID: <?=$post[3]?>, Autor: <?=$post[2]?>, Utworzono: <?=$post[4]?>, liczba wpisów: <?=5?>
                         </div>

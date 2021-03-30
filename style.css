@@ -114,4 +114,21 @@ nav.logout{
 }
 article.post{
     margin: 15px 0;
+    background: rgb(113, 62, 233);
+    padding: 15px;
+    border-radius: 10px;
+}
+article.post>a.navigation-link{
+    background: rgb(88, 48, 180);
+    display: block;
+}
+section#topTopic>div{
+    margin: 15px 0;
+}
+section#topTopic>div:first-child{
+    color: white;
+    font-weight: 700;
+}
+section#topTopic{
+    margin: 25px 0;
 }

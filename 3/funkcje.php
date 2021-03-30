@@ -1,5 +1,5 @@
 <?php
-
+    //file
     function readFileDetails(string $path):array{
         $file=file_get_contents($path, true);
         $filearray=explode("-:-:-",$file);
@@ -15,7 +15,7 @@
 
         return $itemarray;
     }
-
+    //user
     function addUser(string $login, string $author, string $password){
         $file=file_get_contents("./users.txt", true);
         $file.=nl2br($login.":-:".$author.":-:".md5($password).":-:"."user"."-:-:-");
@@ -44,7 +44,7 @@
 
     }
 
-
+    //posts
     function addNewPost(string $postTitle, string $postDetail, string $login){
         $file=file_get_contents("./posty.txt", true);
         $filecontent=readFileDetails("./posty.txt");
@@ -57,7 +57,15 @@
         $file.=nl2br($postTitle.":-:".$postDetail.":-:".$login.":-:".$topicount.":-:".date("d.m.Y, H:i:s")."-:-:-");
         file_put_contents("./posty.txt",$file);
     }
-
+    //opinions
+    function getTopicOfOpinions(int $topicid):array{
+        $posts=readFileDetails("./posty.txt");
+        foreach($posts as $post){
+            if($post[3]==$topicid){
+                return $post;
+            }
+        }
+    }
 
 
 
