@@ -6,7 +6,7 @@
 }
 
 body{
-    background: rgb(113, 62, 233);
+    background-color: darksalmon;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -77,6 +77,7 @@ input, textarea{
 }
 textarea{
     height: 15em;
+    width: 80%;
 }
 input:hover, textarea:hover{
     background: rgba(113, 62, 233, 1);
@@ -112,13 +113,15 @@ nav.logout{
     background: rgb(88, 48, 180);
     margin: 25px 0;
 }
-article.post{
+article.post,
+article.opinion{
     margin: 15px 0;
     background: rgb(113, 62, 233);
     padding: 15px;
     border-radius: 10px;
 }
-article.post>a.navigation-link{
+article.post>a.navigation-link,
+article.opinion>div>a.navigation-link{
     background: rgb(88, 48, 180);
     display: block;
 }
@@ -131,4 +134,14 @@ section#topTopic>div:first-child{
 }
 section#topTopic{
     margin: 25px 0;
+}
+.manipopinion,
+.manippost{
+    display: inline-block;
+    margin: 15px 10px;
+}
+div.manipopinion>a.navigation-link,
+div.manippost>a.navigation-link{
+    font-size: 0.9em;
+    letter-spacing: 2px;
 }
