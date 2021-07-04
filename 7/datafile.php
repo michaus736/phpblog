@@ -83,7 +83,7 @@ class SqlConnector{
            exit; 
        }
   
-       return $r->fetch(\PDO::FETCH_ASSOC); 
+       return $r->fetchAll(\PDO::FETCH_ASSOC); 
          
       }
 

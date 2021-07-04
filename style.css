@@ -6,13 +6,14 @@
 }
 
 body{
-    background-color: darksalmon;
+    background-color: lightskyblue;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     flex-direction: column;
-
+    margin: 0;
+    box-sizing: border-box;
 
 }
 
@@ -144,4 +145,7 @@ div.manipopinion>a.navigation-link,
 div.manippost>a.navigation-link{
     font-size: 0.9em;
     letter-spacing: 2px;
+}
+.note{
+    margin: 10px;
 }

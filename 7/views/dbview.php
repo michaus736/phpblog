@@ -1,10 +1,13 @@
 <div class="varinfo">
 <?php
-echo "<br \>";echo "<br \>";echo "<br \>";echo "<br \>";
+    
+    echo "<br \>";echo "<br \>";echo "<br \>";echo "table names";echo "<br \>";
     echo json_encode($tableNames);
-    echo "<br \>";echo "<br \>";echo "<br \>";
+    echo "<br \>";echo "<br \>";echo "table content";echo "<br \>";
     echo json_encode($queryResult);
     echo "<br \>";echo "<br \>";echo "<br \>";echo "<br \>";
+    
+
 ?>
 </div>
 <table border="1px">

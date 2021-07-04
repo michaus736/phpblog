@@ -4,21 +4,46 @@ $dirname = array_pop($path);
 $username = array_pop($path);
 $path = implode('/', $path);
 $tasks = array();
-$rfile = file("posts.txt");
-$posts = array();
+$filepath="posts.txt";
 
-foreach ($rfile as $post)
+
+
+//write to file
+if (isset($_POST['title']) && isset($_POST['content']))
 {
-    $splitcontent = explode(' ', $post);
-        foreach($splitcontent as $item){
-            $item=htmlspecialchars($item, ENT_QUOTES);
-        }
-    array_push($posts, $splitcontent);
+    $title = $_POST['title'];
+    $content = $_POST['content'];
+    //echo $title.' '.$content;
+    if (!empty($title) && !empty($content))
+    {
+        //$postfile = fopen("posts.txt", 'a');
+        //fwrite($postfile, $title . ' ' . $content . ' ' . date("d.m.Y, H:i:s") . ' ' . "127.0.0.1" . "\n");
+        //fclose($postfile);
+        file_put_contents($filepath, nl2br(bin2hex($title).";" . bin2hex($content) . ";" . bin2hex(date("d.m.Y, H:i:s")) . ";" . bin2hex("127.0.0.1"))."\n", FILE_APPEND|LOCK_EX);
+    }
 }
+
+//echo json_encode($_POST);
+
+//get posts
+$rfile = fopen($filepath, "r");
+$posts = [];
+
+while($post=fgets($rfile)){
+  //var_dump(hex2bin(trim($post)));
+  array_push($posts,
+    array_map("hex2bin",
+     explode(";",
+     trim($post))));
+}
+
+
 
 foreach (scandir("$path/$username") as $dir) 
     if (is_dir("$path/$username/$dir") and $dir != '.' and $dir != '..') 
         $tasks[] = $dir;
+
+
 ?>
 <html lang="pl">
 <head>
@@ -28,6 +53,7 @@ foreach (scandir("$path/$username") as $dir)
   <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" >
   <meta http-equiv="Pragma" content="no-cache" >
   <link rel="stylesheet" type="text/css" href="../style.css"/>
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body>
   <header id="top-header">
@@ -51,85 +77,84 @@ foreach (scandir("$path/$username") as $dir)
 
   </nav>
   <section id="posts">
-      <?php for ($i = count($posts) - 1;$i >= 0;$i--)
+      <?php if($posts!=[]){for ($i = count($posts) - 1;$i >= 0;$i--)
 { ?>
         <article class="post">
-          <div>
+          <header>
               <p>
                 Temat
               </p>
               <p>
-                <?=$posts[$i][0] ?>
+                <?=htmlspecialchars($posts[$i][0]) ?>
               </p>
-          </div>    
+          </header>    
           <div>
                 <p>
                 Tresc
               </p>
               <p>
-                <?=$posts[$i][1] ?>
+                <?=(nl2br(htmlspecialchars($posts[$i][1])))?>
               </p>
           </div>
           <footer class="post-footer">
               <p>
                  Data 
-                <?=$posts[$i][2] . ' ' . $posts[$i][3] ?>
+                <?=htmlspecialchars($posts[$i][2])?>
               </p>
               <p>
                  Adres IP 
-                <?=$posts[$i][4] ?>
+                <?=htmlspecialchars($posts[$i][3]) ?>
               </p>
           </footer>
         </article>
       <?php
-} ?>
+}} ?>
 
   </section>
-  <article>
-      <aside>
-            <?php
-          if(count($posts)==0){ ?>
-            <div>
-                <p>
-                    Brak postow
-                </p>
-            </div>
-          <?php }
-          else{?>
-            <div>
-            <p>
-                Data ostatniego postu: <?=$posts[count($posts)-1][2]. ' ' . $posts[count($posts)-1][3]?>
-            </p>
-          </div>    
-          <div>
-            <p>
-                Liczba postow: <?=count($posts)?>
-            </p>
-          </div>  
-          <?php } ?>
+  
+<aside>
+      <?php
+    if($posts==[]){ ?>
+      <div>
+          <p>
+              Brak postow
+          </p>
+      </div>
+    <?php }
+    else{?>
+      <div>
+      <p id="last-post">
+          Data ostatniego postu: <?=$posts[count($posts)-1][2]. ' ' . $posts[count($posts)-1][3]?>
+      </p>
+    </div>    
+    <div>
+      <p id="post-count">
+          Liczba postow: <?=count($posts)?>
+      </p>
+    </div>  
+    <?php } ?>
 
 
-      </aside>
-      <section id="section-form">
-        <form action="index.php" method="POST">
-            <div>
-              <h2>
-                Enter New Post!
-              </h2>
-            </div>
-            <div class="form-input-text">
-              <input type="text" placeholder="title" name="title" class="input-text"/>
-            </div>
-            <div class="form-input-textarea">
-              <textarea placeholder="content" name="content" class="input-textarea"></textarea>
-            </div>
-            <div class="form-input-submit">
-              <input type="submit" value="send" class="input-submit"/>
-            </div>
+</aside>
+<section id="section-form">
+  <form action="index.php" method="POST">
+      <div>
+        <h2>
+          Enter New Post!
+        </h2>
+      </div>
+      <div class="form-input-text">
+        <input type="text" placeholder="title" name="title" class="input-text"/>
+      </div>
+      <div class="form-input-textarea">
+        <textarea placeholder="content" name="content" class="input-textarea"></textarea>
+      </div>
+      <div class="form-input-submit">
+        <input type="submit" value="send" class="input-submit"/>
+      </div>
 
-      </form>
-    </section>
-  </article>
+</form>
+</section>
   <footer id="footer-page" class="footer-bottom">
       <p>
           MR - User: <?=$username ?>
@@ -141,21 +166,13 @@ foreach (scandir("$path/$username") as $dir)
         TWWW - IR - WIiT PP - <?=date("d.m.Y, H:i:s") ?>
       </p>
   </footer>
+  <?php
+  foreach($posts as $post)
+      echo "<div>".json_encode($post)."</div>";
+  
+  echo "<br>";  
+  echo nl2br($posts[3][1]);
+  ?>
 </body>
-<?php
-//echo json_encode($_POST);
-//write to file
-if (isset($_POST['title']) && isset($_POST['content']))
-{
-    $title = htmlspecialchars($_POST['title'], ENT_QUOTES);
-    $content =  htmlspecialchars($_POST['content'], ENT_QUOTES);;
-    //echo $title.' '.$content;
-    if (!empty($title) && !empty($content))
-    {
-        $postfile = fopen("posts.txt", 'a');
-        fwrite($postfile, $title . ' ' . $content . ' ' . date("d.m.Y, H:i:s") . ' ' . "127.0.0.1" . "\n");
-        fclose($postfile);
-    }
-}
-?>
+
 </html>

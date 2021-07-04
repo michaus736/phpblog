@@ -1,0 +1,19 @@
+article.post header, article.post footer{
+    background-color: blueviolet;
+}
+article.post div{
+    margin: 35px 0;
+}
+article.post{
+    width: 100%;
+}
+section#posts{
+    width: 70%;
+}
+section#section-form{
+    width: 35%;
+    text-align: center;
+}
+form{
+    width: 100%;
+}

@@ -7,14 +7,14 @@
 <h3>
     Login
 </h3>
-<input type="text" required name="userRegisterName">
+<input type="text" required name="userLoginName">
 </label>
 
 <label>
 <h3>
     Password
 </h3>
-<input type="text" required name="userRegisterPassword">
+<input type="text" required name="userLoginPassword">
 </label>
 
 <input type="submit" value="send">
